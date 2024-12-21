@@ -37,34 +37,37 @@ public class BootstrapData implements CommandLineRunner {
         Book duneSavedEntry = bookRepository.save(dune);
 
         Author georgeOrwell = new Author();
-        frankHerbert.setFirstName("George");
-        frankHerbert.setLastName("Orwell");
+        georgeOrwell.setFirstName("George");
+        georgeOrwell.setLastName("Orwell");
 
         Book ninteeneightyfour = new Book();
-        dune.setTitle("1984");
-        dune.setIsbn("1245125");
+        ninteeneightyfour.setTitle("1984");
+        ninteeneightyfour.setIsbn("1245125");
 
         Author georgeOrwellSavedEntry = authorRepository.save(georgeOrwell);
         Book ninteeneightyfourSavedEntry = bookRepository.save(ninteeneightyfour);
 
         frankHerbertSavedEntry.getBooks().add(duneSavedEntry);
         georgeOrwellSavedEntry.getBooks().add(ninteeneightyfourSavedEntry);
-
-        authorRepository.save(frankHerbertSavedEntry);
-        authorRepository.save(georgeOrwellSavedEntry);
-
-        System.out.println("In Bootstrap");
-        System.out.println("Author Count: " + authorRepository.count());
-        System.out.println("Book Count: " + bookRepository.count());
+        duneSavedEntry.getAuthors().add(frankHerbertSavedEntry);
+        ninteeneightyfourSavedEntry.getAuthors().add(georgeOrwellSavedEntry);
 
         Publisher publisher = new Publisher();
         publisher.setPublisherName("My Publisher");
         publisher.setAddress("123 Main");
-
         Publisher publisherSavedEntry = publisherRepository.save(publisher);
 
-        publisherRepository.save(publisher);
+        duneSavedEntry.setPublisher(publisherSavedEntry);
+        ninteeneightyfourSavedEntry.setPublisher(publisherSavedEntry);
 
+        authorRepository.save(frankHerbertSavedEntry);
+        authorRepository.save(georgeOrwellSavedEntry);
+        bookRepository.save(duneSavedEntry);
+        bookRepository.save(ninteeneightyfourSavedEntry);
+
+        System.out.println("In Bootstrap");
+        System.out.println("Author Count: " + authorRepository.count());
+        System.out.println("Book Count: " + bookRepository.count());
         System.out.println("Publisher Count: " + publisherRepository.count());
     }
 }
